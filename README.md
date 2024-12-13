@@ -1,7 +1,3 @@
-# test_encr_decr
-
-A new Flutter project.
-
 # Flutter AES Encryption/Decryption App
 
 ## Overview

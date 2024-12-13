@@ -245,7 +245,7 @@ class _TabsState extends State<Tabs> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            "Secure Data",
+            "Secure Your Data",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           bottom: TabBar(
@@ -259,7 +259,7 @@ class _TabsState extends State<Tabs> {
             labelStyle:
                 const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.blueAccent,
         ),
         body: TabBarView(children: _kTabPages),
       ),

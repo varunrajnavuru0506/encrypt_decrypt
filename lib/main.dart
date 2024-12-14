@@ -89,14 +89,17 @@ class _TabsState extends State<Tabs> {
                   onPressed: () {
                     if (secret.isNotEmpty) {
                       try {
-                        String secretAdd = "saifjckjfklasjdhfljaskldjhflaksj";
-                        final key = encrypt.Key.fromUtf8(secret +
-                            secretAdd.substring(0, 32 - secret.length));
+                        // Generate key and IV
+                        String paddedKey = secret.padRight(32, '0').substring(0, 32);
+                        final key = encrypt.Key.fromUtf8(paddedKey);
                         final iv = encrypt.IV.fromLength(16);
-                        var encrypter = encrypt.Encrypter(encrypt.AES(key));
+
+                        // Encrypt the text
+                        final encrypter = encrypt.Encrypter(encrypt.AES(key));
                         final encrypted = encrypter.encrypt(text, iv: iv);
+
                         setState(() {
-                          encryptedText = encrypted.base64;
+                          encryptedText = "${encrypted.base64}:${iv.base64}";
                         });
                       } catch (e) {
                         debugPrint("Encryption failed: $e");
@@ -166,7 +169,7 @@ class _TabsState extends State<Tabs> {
                     decryptText = val;
                   },
                   decoration: InputDecoration(
-                    labelText: "Enter the encrypted text",
+                    labelText: "Enter the encrypted text (format: text:iv)",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -194,16 +197,24 @@ class _TabsState extends State<Tabs> {
                   ),
                   onPressed: () {
                     try {
-                      if (secret1.isNotEmpty) {
-                        String secretAdd = "sailasdjfklasjdhfljaskldjhflaksj";
-                        final key = encrypt.Key.fromUtf8(secret1 +
-                            secretAdd.substring(0, 32 - secret1.length));
-                        final iv = encrypt.IV.fromLength(16);
-                        var encrypter = encrypt.Encrypter(encrypt.AES(key));
-                        var decrypted = encrypter.decrypt(
-                          encrypt.Encrypted.fromBase64(decryptText),
+                      if (secret1.isNotEmpty && decryptText.contains(":")) {
+                        // Extract encrypted text and IV
+                        final parts = decryptText.split(":");
+                        final encryptedBase64 = parts[0];
+                        final ivBase64 = parts[1];
+
+                        // Generate key and IV
+                        String paddedKey = secret1.padRight(32, '0').substring(0, 32);
+                        final key = encrypt.Key.fromUtf8(paddedKey);
+                        final iv = encrypt.IV.fromBase64(ivBase64);
+
+                        // Decrypt the text
+                        final encrypter = encrypt.Encrypter(encrypt.AES(key));
+                        final decrypted = encrypter.decrypt(
+                          encrypt.Encrypted.fromBase64(encryptedBase64),
                           iv: iv,
                         );
+
                         setState(() {
                           decryptedText = decrypted;
                         });
@@ -250,10 +261,6 @@ class _TabsState extends State<Tabs> {
           ),
           bottom: TabBar(
             tabs: _kTabs,
-            // indicator: BoxDecoration(
-            //   color: Colors.yellow,
-            //   borderRadius: BorderRadius.circular(10),
-            // ),
             labelColor: Colors.white,
             unselectedLabelColor: Colors.black,
             labelStyle:

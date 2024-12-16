@@ -244,11 +244,62 @@ class _TabsState extends State<Tabs> {
           ),
         ),
       ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+        child: Card(
+          elevation: 4,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: ListView(
+              children: [
+                const SizedBox(height: 20),
+            
+                const Text(
+                  "Hi, I'm VarunRaj Navuru",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  "I developed a Flutter-based AES Encryption and Decryption app as part of my MSc project in university of Greenwich, under the guidance of my supervisor and mentor, Atif Siddiqui.",
+                  style: TextStyle(
+                            fontSize: 16,
+                            // fontWeight: FontWeight.bold
+                            ),
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  "The app provides a secure method for encrypting and decrypting text using the AES encryption algorithm. Users can enter a text and a secret key to encrypt the text, which is then displayed in Base64 format. For decryption, users input the encrypted text and the same secret key to retrieve the original message. The app generates a 32-byte encryption key by combining the secret key with a constant string and uses a random Initialization Vector (IV). Key features include clipboard support, feedback notifications, and an intuitive UI. It leverages Flutter's material design package and the encrypt package for AES encryption",
+                  style: TextStyle(
+                            fontSize: 16,
+                            // fontWeight: FontWeight.bold
+                            ),
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  "Thank you",
+                  style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold
+                            ),
+                  textAlign: TextAlign.center,
+                ),
+                
+              ],
+            ),
+          ),
+        ),
+      ),
     ];
 
     final _kTabs = <Tab>[
       const Tab(icon: Icon(Icons.lock), text: 'Encrypt'),
       const Tab(icon: Icon(Icons.lock_open), text: 'Decrypt'),
+      const Tab(icon: Icon(Icons.info_outline), text: 'About'),
     ];
 
     return DefaultTabController(
